@@ -1,0 +1,71 @@
+# Global ignores
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+dist/
+build/
+pip-wheel-metadata/
+env/
+venv/
+ENV/
+venv.bak/
+.venv/
+.pytest_cache/
+.coverage
+coverage.*
+.cache
+*.log
+*.pot
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+celerybeat-schedule
+*.sqlite3
+
+# Rust
+/target/
+/Cargo.lock
+**/*.rs.bk
+
+# Go
+bin/
+pkg/
+*.exe
+*.test
+*.out
+*.cgo
+*.o
+*.a
+vendor/
+# Go workspace file
+go.work
+
+# macOS files
+*.DS_Store
+
+# Windows files
+Thumbs.db
+ehthumbs.db
+
+# IDEs and Text Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.iml
+*.code-workspace
+
