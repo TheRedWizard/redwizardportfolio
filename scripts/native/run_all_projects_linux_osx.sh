@@ -6,6 +6,9 @@ set -e
 # Determine the base directory (two levels up from the scripts/native directory)
 BASE_DIR=$(dirname "$(dirname "$(dirname "$(realpath "$0")")")")
 
+# Create the bin directory if it doesn't exist
+BIN_DIR="$BASE_DIR/bin"
+mkdir -p "$BIN_DIR"
 
 echo "Running all projects..."
 
@@ -25,7 +28,7 @@ run_python_project() {
     
     # Ensure dependencies are installed
     if [ -f "requirements.txt" ]; then
-        pip install -r requirements.txt
+        pip install -r requirements.txt 2>/dev/null || { echo "Failed to install dependencies"; exit 1; }
     fi
     
     # Run the project
@@ -44,8 +47,8 @@ run_rust_project() {
     # Navigate to the project directory
     cd "$project_path"
     
-    # Ensure the project is built
-    cargo build --release
+    # Ensure the project is built and place the binary in bin/
+    cargo build --release --target-dir "$BIN_DIR/rust" 2>&1 | grep -v "Finished" || true
     
     # Run the project
     ./target/release/hello_world
@@ -61,10 +64,14 @@ run_go_project() {
     
     # Navigate to the project directory
     cd "$project_path"
+
+    # Determine the binary name based on the project directory name
+    project_name=$(basename "$project_path")
+    output_binary="$BIN_DIR/$project_name"
     
-    # Build and run the Go project
-    go build -o hello_world
-    ./hello_world
+    # Build and place the Go binary in bin/
+    go build -o "$output_binary"
+    "$output_binary"
     
     # Return to the root directory
     cd - > /dev/null
